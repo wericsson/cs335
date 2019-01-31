@@ -50,16 +50,16 @@ def build_dict_from_file(filename):
   f = open(filename,'rU')
   wordcounts = {}
   for line in f:
-    rawline = line.strip().lower()
+    line = line.strip().lower()
     outstring = ''
     for s in string.punctuation:
       outstring = outstring + ' '
-    rawline = rawline.translate(string.maketrans(string.punctuation,outstring))
-    words = rawline.split()
+    line = line.translate(string.maketrans(string.punctuation,outstring))
+    words = line.split()
     for word in words:
       if word == '':
         break
-      if word in wordcounts:
+      elif word in wordcounts:
         wordcounts[word] += 1
       else:
         wordcounts[word] = 1
