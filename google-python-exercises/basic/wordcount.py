@@ -51,9 +51,7 @@ def build_dict_from_file(filename):
   wordcounts = {}
   for line in f:
     line = line.strip().lower()
-    outstring = ''
-    for s in string.punctuation:
-      outstring = outstring + ' '
+    outstring = ' ' * len(string.punctuation)
     line = line.translate(string.maketrans(string.punctuation,outstring))
     words = line.split()
     for word in words:
