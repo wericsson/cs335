@@ -38,6 +38,7 @@ print_words() and print_top().
 """
 
 import sys
+import string
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -49,8 +50,15 @@ def build_dict_from_file(filename):
   f = open(filename,'rU')
   wordcounts = {}
   for line in f:
-    words = line.strip().lower().split()
+    rawline = line.strip().lower()
+    outstring = ''
+    for s in string.punctuation:
+      outstring = outstring + ' '
+    rawline = rawline.translate(string.maketrans(string.punctuation,outstring))
+    words = rawline.split()
     for word in words:
+      if word == '':
+        break
       if word in wordcounts:
         wordcounts[word] += 1
       else:
@@ -59,9 +67,9 @@ def build_dict_from_file(filename):
   return wordcounts
 
 def print_words(filename):
+  wordcounts = build_dict_from_file(filename)
   def sort_by_word(wordcount):
     return wordcount[0]
-  wordcounts = build_dict_from_file(filename)
   for word,count in sorted(wordcounts.items(),key=sort_by_word):
     print word + ' ' + str(count)
   return
