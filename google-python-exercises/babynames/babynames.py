@@ -51,11 +51,23 @@ def extract_names(filename):
     sys.exit(1)
   namerankmatches = re.findall(r'td>(\d+)</td><td>(\w+)</td><td>(\w+)', infile)
   result = [year]
+  namerankdict = {}
   for namerankmatch in namerankmatches:
-    result.append(namerankmatch[1] + " " + namerankmatch[0])
-    result.append(namerankmatch[2] + " " + namerankmatch[0])
+    #result.append(namerankmatch[1] + " " + namerankmatch[0])
+    #result.append(namerankmatch[2] + " " + namerankmatch[0])
+    if namerankmatch[1] in namerankdict:
+      if namerankmatch[0] < namerankdict[namerankmatch[1]]:
+        namerankdict[namerankmatch[1]] = namerankmatch[0]
+    else:
+      namerankdict[namerankmatch[1]] = namerankmatch[0]
+    if namerankmatch[2] in namerankdict:
+      if namerankmatch[0] < namerankdict[namerankmatch[2]]:
+        namerankdict[namerankmatch[2]] = namerankmatch[0]
+    else:
+      namerankdict[namerankmatch[2]] = namerankmatch[0]
+  for name, rank in namerankdict.items():
+    result.append(name + " " + str(rank))
   return sorted(result)
-
 
 def main():
   # This command-line parsing code is provided.
