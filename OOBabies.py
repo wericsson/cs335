@@ -19,7 +19,7 @@ class BabyNames :
     else:
       if text.info().gettype() == 'text/html':
         pagetext = text.read()
-        ols = re.findall(r"<ol.*?>.*?</ol>", pagetext)
+        ols = re.findall(r"<ol.*?>.*?</ol>", pagetext, re.DOTALL)
         if len(ols) == 0:
           print "Found no ordered lists at " + target
           errf = open('dump.txt','w')
@@ -81,7 +81,6 @@ def main():
   else:
     if text.info().gettype() == 'text/html':
       uls = re.findall(r"\d+\sto\s\d+</h2><ul>.*?</ul>", text.read())
-      print "len(uls) = " + str(len(uls))
       for ul in uls:
         lis = re.findall(r"<li>.*?</li>", ul)
         for li in lis:
